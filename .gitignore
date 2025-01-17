@@ -1,56 +1,33 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
+# Personal and sensitive files
+job_description.md
+prompt.md
+requirements.txt
+Notes from Course/
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Development files
+test_kaggle_api.py
 
-# Environment
-.env
-.venv
-venv/
-ENV/
-.conda/
+# Credentials and configs
+.kaggle/
+config/credentials/
 
-# VS Code
-.vscode/
+# Notebooks checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
 
 # Data files
-*.csv
-*.xlsx
-*.parquet
-*.sqlite
-*.db
+data/raw/
+data/processed/
+data/external/
 
-# macOS
+# IDE files
+.vscode/
+.idea/
+
+# OS files
 .DS_Store
+*/.DS_Store
 
-# Google Cloud
-*.json
-
-# Logs
-*.log
-
-# Local configuration
-config.local.yaml
-
-# Project specific
-Notes from Course/
+# Local environment
+.env
+*.local
