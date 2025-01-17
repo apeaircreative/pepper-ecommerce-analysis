@@ -1,0 +1,12 @@
+{
+  "graphql_test": {
+    "errors": [
+      {
+        "message": "",
+        "extensions": {
+          "code": "ACCESS_DENIED"
+        }
+      }
+    ]
+  }
+}

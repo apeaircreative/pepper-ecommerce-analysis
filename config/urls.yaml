@@ -1,0 +1,44 @@
+shopify:
+  base_url: "https://www.wearpepper.com"
+  collections:
+    bras:
+      main: "/collections/bras"
+      wireless: "/collections/wireless-bras"
+      strapless: "/collections/strapless-bras"
+      sports: "/collections/sports-bras"
+  
+  endpoints:
+    products: "/products.json"
+    orders: "/admin/api/2024-01/orders.json"
+    customers: "/admin/api/2024-01/customers.json"
+    collections: "/collections.json"
+
+  rate_limits:
+    requests_per_second: 2
+    max_retries: 3
+    retry_delay: 5
+
+validation:
+  price:
+    min: 20
+    max: 100
+    typical_range: [45, 75]
+  
+  weight:
+    min: 50  # grams
+    max: 500
+    
+  dimensions:
+    min: 5   # cm
+    max: 50
+
+  order:
+    min_items: 1
+    max_items: 10
+    status_values: 
+      - "pending"
+      - "processing"
+      - "shipped"
+      - "delivered"
+      - "cancelled"
+      - "returned"

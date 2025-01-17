@@ -1,0 +1,15 @@
+2025-01-16 23:46:37,821 - __main__ - INFO - Starting focused data collection process...
+2025-01-16 23:46:37,823 - shopify_scraper - INFO - Initializing Shopify scraper
+2025-01-16 23:46:37,824 - shopify_scraper - INFO - Loaded configuration from /Users/aaliyah/Desktop/data analyst/config/urls.yaml
+2025-01-16 23:46:37,825 - __main__ - INFO - Collecting bra products data...
+2025-01-16 23:46:37,825 - shopify_scraper - INFO - Fetching products from collection: /collections/bras
+2025-01-16 23:46:40,448 - shopify_scraper - INFO - Found 361 products in collection
+2025-01-16 23:46:40,450 - __main__ - INFO - Collected 361 bra products
+2025-01-16 23:46:40,459 - __main__ - INFO - Saved raw data to /Users/aaliyah/Desktop/data analyst/data/pepper/raw_bra_products_20250116_234640.csv
+2025-01-16 23:46:40,459 - __main__ - INFO - Validating bra product data...
+2025-01-16 23:46:40,462 - __main__ - INFO - Validation complete
+2025-01-16 23:46:40,465 - __main__ - INFO - Saved validation report to /Users/aaliyah/Desktop/data analyst/data/quality_reports/validation_report_20250116_234640.json
+2025-01-16 23:46:40,465 - __main__ - INFO - Transforming data to Olist schema...
+2025-01-16 23:46:40,469 - __main__ - INFO - Transformation complete
+2025-01-16 23:46:40,472 - __main__ - INFO - Saved transformed data to /Users/aaliyah/Desktop/data analyst/data/pepper/transformed_bra_products_20250116_234640.csv
+2025-01-16 23:46:40,472 - __main__ - INFO - Data collection process complete

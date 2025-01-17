@@ -1,0 +1,7 @@
+2025-01-17 00:01:42,317 - __main__ - INFO - Starting order data collection process...
+2025-01-17 00:01:42,320 - shopify_scraper - INFO - Initializing Shopify scraper
+2025-01-17 00:01:42,323 - shopify_scraper - INFO - Loaded configuration from /Users/aaliyah/Desktop/data analyst/config/urls.yaml
+2025-01-17 00:01:42,323 - __main__ - INFO - Collecting orders since 2024-12-18 00:01:42.323338
+2025-01-17 00:01:43,550 - shopify_scraper - ERROR - Error fetching orders: 401 Client Error: Unauthorized for url: https://pepper-bra.myshopify.com/admin/api/2024-01/orders.json?limit=250&page=1&created_at_min=2024-12-18T00%3A01%3A42.323338&status=any
+2025-01-17 00:01:43,551 - __main__ - ERROR - Error collecting orders: 401 Client Error: Unauthorized for url: https://pepper-bra.myshopify.com/admin/api/2024-01/orders.json?limit=250&page=1&created_at_min=2024-12-18T00%3A01%3A42.323338&status=any
+2025-01-17 00:01:43,551 - __main__ - ERROR - Process failed: 401 Client Error: Unauthorized for url: https://pepper-bra.myshopify.com/admin/api/2024-01/orders.json?limit=250&page=1&created_at_min=2024-12-18T00%3A01%3A42.323338&status=any

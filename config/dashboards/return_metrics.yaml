@@ -1,0 +1,117 @@
+title: Pepper Return Metrics Dashboard
+description: Monitor return rates and customer satisfaction by segment
+refresh_rate: 24h  # Daily refresh
+
+metrics:
+  - name: Return Rate Overview
+    type: kpi_grid
+    metrics:
+      - name: Total Returns
+        query: return_metrics.total_returns
+        format: number
+        compare_to: previous_period
+      - name: Return Rate
+        query: return_metrics.return_rate
+        format: percentage
+        compare_to: previous_period
+      - name: Exchange Rate
+        query: return_metrics.exchange_rate
+        format: percentage
+        compare_to: previous_period
+
+  - name: Return Reasons
+    type: pie_chart
+    query: >
+      SELECT 
+        return_reason,
+        COUNT(*) as count,
+        ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 2) as percentage
+      FROM return_tracking
+      GROUP BY return_reason
+      ORDER BY count DESC
+    refresh_rate: 1h
+
+  - name: Returns by Size
+    type: bar_chart
+    query: >
+      SELECT 
+        size_returned,
+        COUNT(*) as returns,
+        SUM(CASE WHEN exchange_requested THEN 1 ELSE 0 END) as exchanges
+      FROM return_tracking
+      GROUP BY size_returned
+      ORDER BY returns DESC
+    refresh_rate: 1h
+
+  - name: Return Timeline
+    type: line_chart
+    query: >
+      SELECT 
+        date(return_initiated_date) as date,
+        COUNT(*) as returns
+      FROM return_tracking
+      GROUP BY date
+      ORDER BY date
+    refresh_rate: 1h
+
+filters:
+  - name: Date Range
+    type: date_range
+    default: last_30_days
+    
+  - name: Size Segment
+    type: multi_select
+    options:
+      - Core
+      - Extended
+    default: [Core, Extended]
+    
+  - name: Return Status
+    type: multi_select
+    options:
+      - Initiated
+      - Label Generated
+      - In Transit
+      - Received
+      - Inspected
+      - Refunded
+      - Exchanged
+      - Completed
+    default: [all]
+
+layout:
+  - row:
+      - Return Rate Overview:
+          width: 12
+          height: 3
+          
+  - row:
+      - Return Reasons:
+          width: 6
+          height: 4
+      - Returns by Size:
+          width: 6
+          height: 4
+          
+  - row:
+      - Return Timeline:
+          width: 12
+          height: 4
+
+export:
+  - format: pdf
+    schedule: weekly
+    recipients: [data_team@pepper.com, product_team@pepper.com]
+    
+  - format: csv
+    schedule: daily
+    recipients: [analytics@pepper.com]
+
+alerts:
+  - name: High Return Rate
+    condition: return_rate > 10
+    notify: [product_team@pepper.com]
+    
+  - name: Unusual Return Volume
+    condition: daily_returns > avg_daily_returns * 1.5
+    notify: [operations@pepper.com]

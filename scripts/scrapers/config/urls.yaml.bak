@@ -1,0 +1,62 @@
+amazon:
+  base_url: https://www.amazon.com
+  brand_name: Pepper
+  product_lines:
+  - Zero-G Wirefree Lift Up Bra
+  - Signature All You Bra
+  - Lift Up Bra
+  search_queries:
+  - Pepper bra women
+  - Pepper wireless bra
+  - Pepper signature all you bra
+collection:
+  delay: 2
+  headers:
+    user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+      (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+  max_pages: 10
+metadata:
+  collections:
+  - The Art of Self Love
+  - Supima Cotton
+  - Valentine's Collection
+  features:
+  - Wireless options
+  - Minimal padding
+  - Flattering fit
+  main_categories:
+  - Bras
+  - Underwear
+  - Bundles
+  price_range: $40-60
+  size_range: AA-B cups
+rate_limits:
+  amazon:
+    requests_per_minute: 10
+  shopify:
+    requests_per_minute: 30
+shopify:
+  base_url: https://www.wearpepper.com
+  collections:
+    all_products: /collections/all
+    bras:
+      categories:
+        bras: /collections/bras
+      main: /collections/bras
+  validation:
+    price_ranges:
+      lift_up:
+      - 65.0
+      - 65.0
+      signature:
+      - 60.0
+      - 60.0
+      zero_g:
+      - 65.0
+      - 65.0
+    sku_patterns:
+      lift_up: ^LUB01
+      signature: ^SAY01
+      zero_g:
+      - ^BRA035
+      - ^ZGW01

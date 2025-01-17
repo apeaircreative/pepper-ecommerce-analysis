@@ -1,26 +1,60 @@
-# Pepper Market Analysis Project
+# Pepper E-commerce Analysis: A Journey from Metrics to Understanding
 
-## Project Overview
-Analysis of Pepper's customer segmentation strategy, focusing on understanding and serving the small-chested market (AA-B cups) through data-driven insights.
+## Project Evolution
+This project demonstrates the evolution of analytical thinking in e-commerce:
 
-## Latest Analysis (January 17, 2025)
-We've refined our segmentation strategy to better align with actual customer sizes and behaviors:
+### Version 1: Traditional Analysis
+Initial approach focused on standard e-commerce metrics and broad data collection.
 
-### Size-First Segmentation
-1. **Petite Active (30-34 AA/A)**
-   - Primary revenue driver (35.5%)
-   - Active lifestyle focus
-   - Summer seasonal peak
+### Version 2: UX-Driven Journey Analysis
+Enhanced approach incorporating user experience insights and post-purchase behavior.
 
-2. **Core Comfort (30-36 A/B)**
-   - Loyal customer base
-   - High repeat purchase rate (63.6%)
-   - Value-oriented pricing
+## Why the Pivot?
+The evolution from traditional metrics to journey analysis represents growth in:
+- Strategic thinking
+- Customer understanding
+- Business impact
+- Analytical maturity
 
-3. **Fashion Forward (32-36 B)**
-   - Premium segment
-   - Style-conscious customers
-   - Spring/Fall seasonal peaks
+## Project Structure
+```
+/analysis
+├── v1_traditional/    # Initial e-commerce analysis
+├── v2_ux_journey/     # Enhanced UX-focused analysis
+└── comparison.md      # Analysis evolution and learnings
+```
+
+## Key Insights (Latest)
+- Customer journey mapping reveals clear progression patterns
+- Size confidence develops through specific product sequences
+- Category adoption follows predictable paths
+- Post-purchase behavior predicts customer value
+
+## Business Impact
+- More targeted inventory planning
+- Journey-based marketing strategies
+- Improved customer retention
+- Enhanced product development
+
+## Tools & Methods
+- Python for data analysis
+- Shopify API integration
+- Data visualization (Plotly)
+- Statistical analysis
+
+## Future Development
+- Journey-based cohort analysis
+- Confidence progression modeling
+- Category adoption tracking
+- Enhanced visualization
+
+## About This Portfolio Project
+This project showcases:
+- Analytical evolution
+- Strategic thinking
+- Business acumen
+- Technical skills
+- Professional growth
 
 ## Key Files
 - `analysis/market_visualization.py`: Main analysis script
