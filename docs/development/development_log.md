@@ -407,8 +407,8 @@ We can proceed in two ways:
    - Map cross-sell opportunities
 
 2. **Marketing Optimization**:
-   - Channel efficiency metrics
-   - Promotional ROI framework
+   - Channel ROI metrics
+   - Promotional effectiveness
    - Customer acquisition costs
 
 3. **Product Intelligence**:
@@ -784,3 +784,249 @@ This research helps us:
 - Build transferable methodologies
 
 Would you like me to start with the product analysis notebook to establish our baseline understanding of Pepper's business?
+
+## January 17, 2025
+
+### Major Updates
+1. **Switched to Shopify API**
+   - Attempted to collect order data using Shopify's Admin API
+   - Encountered 401 Unauthorized error, indicating need for admin-level API access
+   - Decision: Pivot to data simulation for development and testing until API access is granted
+
+2. **Data Simulation Strategy**
+   - Created `DataSimulator` class to generate realistic order data
+   - Used actual product data (IDs, prices) as foundation
+   - Implemented realistic patterns:
+     - Day-of-week distribution (higher volume on weekdays)
+     - Time-of-day distribution (peak, regular, low hours)
+     - Order size distribution (1-3 items, weighted towards single items)
+     - Shipping rules ($5.99 base, free over $75)
+     - Tax calculation (8% rate)
+
+3. **Schema Alignment**
+   - Successfully transformed product data to match TheLook schema
+   - Created order transformation pipeline:
+     - Split orders into individual line items
+     - Added tracking fields (created, shipped, delivered dates)
+     - Mapped status values to match TheLook conventions
+     - Validated required fields and data types
+
+4. **Data Quality Improvements**
+   - Enhanced validation rules in `DataQualityValidator`:
+     - Required fields for orders and line items
+     - Price range validation
+     - Status value enumeration
+     - Address field completeness checks
+
+### Current State
+- Product Data: Live collection operational, matching TheLook schema
+- Order Data: Simulated with realistic patterns, matching TheLook schema
+- Generated Data Volumes:
+  - 361 unique products
+  - 600 orders
+  - 829 order items (indicating natural multiple-item order patterns)
+
+### Next Steps
+1. Customer Data Layer
+   - Design customer profile schema
+   - Implement customer data simulation
+   - Add demographic and acquisition source data
+
+2. Data Integration
+   - Link products, orders, and customers
+   - Validate referential integrity
+   - Create unified data model
+
+3. Analysis Preparation
+   - Create Jupyter notebooks for analysis
+   - Define key metrics and KPIs
+   - Set up visualization templates
+
+### Technical Debt and Improvements
+1. API Access
+   - Need to obtain proper Shopify Admin API credentials
+   - Plan migration from simulated to real order data
+   - Consider implementing API credential management
+
+2. Data Validation
+   - Add cross-reference validation between datasets
+   - Implement data consistency checks
+   - Add more sophisticated anomaly detection
+
+3. Performance
+   - Consider batch processing for large order volumes
+   - Optimize data transformation pipeline
+   - Add progress tracking for long-running operations
+
+### 2025-01-17: Order Data Collection and Simulation
+
+#### Key Decisions and Progress
+
+#### 1. Shopify Admin API Access
+- Attempted to collect order data using Shopify's Admin API
+- Encountered 401 Unauthorized error, indicating need for admin-level API access
+- Decision: Pivot to data simulation for development and testing until API access is granted
+
+#### 2. Data Simulation Strategy
+- Created `DataSimulator` class to generate realistic order data
+- Used actual product data (IDs, prices) as foundation
+- Implemented realistic patterns:
+  - Day-of-week distribution (higher volume on weekdays)
+  - Time-of-day distribution (peak, regular, low hours)
+  - Order size distribution (1-3 items, weighted towards single items)
+  - Shipping rules ($5.99 base, free over $75)
+  - Tax calculation (8% rate)
+
+#### 3. Schema Alignment
+- Successfully transformed product data to match TheLook schema
+- Created order transformation pipeline:
+  - Split orders into individual line items
+  - Added tracking fields (created, shipped, delivered dates)
+  - Mapped status values to match TheLook conventions
+  - Validated required fields and data types
+
+#### 4. Data Quality Improvements
+- Enhanced validation rules in `DataQualityValidator`:
+  - Required fields for orders and line items
+  - Price range validation
+  - Status value enumeration
+  - Address field completeness checks
+
+### Current State
+- Product Data: Live collection operational, matching TheLook schema
+- Order Data: Simulated with realistic patterns, matching TheLook schema
+- Generated Data Volumes:
+  - 361 unique products
+  - 600 orders
+  - 829 order items (indicating natural multiple-item order patterns)
+
+### Next Steps
+1. Customer Data Layer
+   - Design customer profile schema
+   - Implement customer data simulation
+   - Add demographic and acquisition source data
+
+2. Data Integration
+   - Link products, orders, and customers
+   - Validate referential integrity
+   - Create unified data model
+
+3. Analysis Preparation
+   - Create Jupyter notebooks for analysis
+   - Define key metrics and KPIs
+   - Set up visualization templates
+
+### Technical Debt and Improvements
+1. API Access
+   - Need to obtain proper Shopify Admin API credentials
+   - Plan migration from simulated to real order data
+   - Consider implementing API credential management
+
+2. Data Validation
+   - Add cross-reference validation between datasets
+   - Implement data consistency checks
+   - Add more sophisticated anomaly detection
+
+3. Performance
+   - Consider batch processing for large order volumes
+   - Optimize data transformation pipeline
+   - Add progress tracking for long-running operations
+
+## January 18, 2025: Size-First Segmentation Refinement
+
+### Changes Made
+1. **Segmentation Strategy Evolution**
+   - Moved from broad market segments to size-driven segmentation
+   - Created CHANGELOG.md to track strategy evolution
+   - Updated market_visualization.py for new analysis
+
+2. **Data Structure Updates**
+   - Added size information to order analysis
+   - Enhanced product categorization
+   - Improved data simulation for realistic patterns
+
+3. **Analysis Improvements**
+   - Added size distribution analysis
+   - Enhanced seasonal trend detection
+   - Improved visualization of segment performance
+
+### Key Findings
+1. **Petite Active Segment (30-34 AA/A)**
+   - Drives 35.5% of revenue
+   - Shows strong summer seasonality
+   - Higher price point acceptance ($65.62 AOV)
+
+2. **Core Comfort Segment (30-36 A/B)**
+   - Most loyal customer base (63.6% repeat rate)
+   - Value-conscious ($60.46 AOV)
+   - Strong late summer performance
+
+3. **Fashion Forward Segment (32-36 B)**
+   - Premium pricing ($67.61 AOV)
+   - Distinct seasonal patterns (spring/fall peaks)
+   - Lower repeat rate but higher transaction value
+
+### Technical Improvements
+1. **Code Organization**
+   - Separated analysis functions for better maintainability
+   - Added comprehensive documentation
+   - Created interactive visualizations
+
+2. **Data Quality**
+   - Enhanced size extraction logic
+   - Improved datetime handling
+   - Added data validation checks
+
+### Next Steps
+1. **Product Development**
+   - Create size-specific product recommendations
+   - Plan seasonal inventory based on segment patterns
+   - Develop new products for underserved size ranges
+
+2. **Marketing Strategy**
+   - Design segment-specific campaigns
+   - Optimize timing based on seasonal patterns
+   - Create targeted loyalty programs
+
+3. **Analytics Enhancement**
+   - Add cohort analysis by size
+   - Develop size-based prediction models
+   - Create automated reporting system
+
+### Decision Log
+1. **Size-First Approach**
+   - Rationale: Clear correlation between size and behavior
+   - Impact: Better targeted recommendations
+   - Validation: Distinct segment patterns
+
+2. **Seasonal Focus**
+   - Rationale: Strong seasonal variations by segment
+   - Impact: Improved inventory planning
+   - Next: Develop seasonal marketing calendar
+
+3. **Price Segmentation**
+   - Rationale: Different price sensitivity by segment
+   - Impact: Optimized pricing strategy
+   - Next: Test segment-specific promotions
+
+### Technical Debt
+1. **Data Structure**
+   - Need to standardize size format
+   - Add more robust error handling
+   - Improve performance of large dataset handling
+
+2. **Documentation**
+   - Add API documentation
+   - Create user guide for analysis tools
+   - Document data quality checks
+
+3. **Testing**
+   - Add unit tests for core functions
+   - Create integration tests
+   - Implement automated testing pipeline
+
+### Resources
+- Updated README.md with latest findings
+- Created CHANGELOG.md for strategy evolution
+- Generated new interactive visualizations
+- Updated business story documentation

@@ -15,10 +15,24 @@ config/credentials/
 .ipynb_checkpoints/
 */.ipynb_checkpoints/*
 
-# Data files
-data/raw/
-data/processed/
-data/external/
+# Raw data files
+data/raw/*.csv
+data/raw/*.xlsx
+data/raw/*.parquet
+data/raw/*.sqlite
+data/raw/*.db
+
+# Processed data
+data/processed/*.csv
+data/processed/*.xlsx
+
+# Keep external data directory structure
+!data/
+!data/external/
+!data/external/pepper/
+!data/external/pepper/koala_inspector/
+!data/external/pepper/koala_inspector/screenshots/
+!data/external/pepper/koala_inspector/csv_exports/
 
 # IDE files
 .vscode/

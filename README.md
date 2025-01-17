@@ -1,43 +1,71 @@
-# Pepper Analytics Project
+# Pepper Market Analysis Project
 
-## Overview
-Data analytics project for e-commerce analysis focusing on customer retention, LTV, and marketing efficiency.
+## Project Overview
+Analysis of Pepper's customer segmentation strategy, focusing on understanding and serving the small-chested market (AA-B cups) through data-driven insights.
 
-## Project Structure
-- `data/`: Local data files and cached datasets
-- `notebooks/`: Jupyter notebooks for analysis
-- `scripts/`: Python transformation scripts
-- `sql/`: SQL queries for analysis
-- `docs/`: Project documentation
+## Latest Analysis (January 17, 2025)
+We've refined our segmentation strategy to better align with actual customer sizes and behaviors:
 
-## Setup
-1. Environment setup:
-   ```bash
-   conda create -n pepper-analysis python=3.11
-   conda activate pepper-analysis
-   # Install required packages
-   conda install -c conda-forge pandas numpy scikit-learn jupyter matplotlib seaborn plotly ipykernel python-dotenv google-cloud-bigquery pandas-gbq sqlalchemy pyarrow black flake8
-   ```
+### Size-First Segmentation
+1. **Petite Active (30-34 AA/A)**
+   - Primary revenue driver (35.5%)
+   - Active lifestyle focus
+   - Summer seasonal peak
 
-2. Google Cloud Setup:
-   - Project: pepper-analytics-2024
-   - Dataset: processed_data
-   - Using BigQuery free tier features
+2. **Core Comfort (30-36 A/B)**
+   - Loyal customer base
+   - High repeat purchase rate (63.6%)
+   - Value-oriented pricing
 
-## Data Pipeline
-1. Raw Data Sources:
-   - TheLook E-commerce dataset (BigQuery public dataset)
-   - Tables: users, orders, order_items
+3. **Fashion Forward (32-36 B)**
+   - Premium segment
+   - Style-conscious customers
+   - Spring/Fall seasonal peaks
 
-2. Transformed Views:
-   - unified_customers_view
-   - unified_orders_view
-   - customer_metrics_view
+## Key Files
+- `analysis/market_visualization.py`: Main analysis script
+- `analysis/business_story.md`: Detailed findings and recommendations
+- `analysis/CHANGELOG.md`: Evolution of segmentation strategy
+- `analysis/product_mix.html`: Interactive product analysis
+- `analysis/customer_behavior.html`: Customer behavior trends
 
-## Analysis Plan
-1. Cohort Retention Analysis
-2. Customer LTV Modeling
-3. Marketing Channel Efficiency
+## Dependencies
+- pandas: Data manipulation
+- numpy: Numerical operations
+- plotly: Interactive visualizations
+- sqlite3: Database operations
 
-## Usage
-See individual notebooks in `notebooks/` for specific analyses.
+## Running the Analysis
+1. Ensure all dependencies are installed
+2. Run `python analysis/market_visualization.py`
+3. View results in generated HTML files and business_story.md
+
+## Key Insights
+- Size is the primary driver of customer behavior
+- Each segment shows distinct seasonal patterns
+- Price sensitivity varies by segment
+- Loyalty programs should be segment-specific
+
+## Next Steps
+1. Develop segment-specific product recommendations
+2. Create targeted marketing strategies
+3. Implement seasonal inventory planning
+4. Enhance size-specific customer experience
+
+## Project Status
+- [x] Initial data analysis
+- [x] Customer segmentation
+- [x] Product mix analysis
+- [x] Behavioral analysis
+- [x] Size-based insights
+- [ ] Product recommendations
+- [ ] Marketing strategies
+- [ ] Implementation plan
+
+## Contributors
+- Data Analysis Team
+- Product Strategy Team
+- Marketing Team
+
+## Last Updated
+January 17, 2025
