@@ -104,10 +104,10 @@ def identify_patterns():
 - Category introduction
 
 ## Next Steps
-[ ] Implement entry point analysis
-[ ] Create initial visualizations
-[ ] Document first findings
-[ ] Review with portfolio focus
+- [ ] Implement entry point analysis
+- [ ] Create initial visualizations
+- [ ] Document first findings
+- [ ] Review with portfolio focus
 
 ### Future Considerations
 - Machine learning for pattern prediction
