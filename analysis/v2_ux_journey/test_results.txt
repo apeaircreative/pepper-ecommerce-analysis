@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.8, pytest-7.4.4, pluggy-1.5.0 -- /opt/anaconda3/envs/pepper-analysis/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/aaliyah/Desktop/data analyst/analysis/v2_ux_journey
+plugins: anyio-4.8.0
+collecting ... collected 10 items
+
+tests/test_journey_mapping.py::TestJourneyMapper::test_data_preparation PASSED [ 10%]
+tests/test_journey_mapping.py::TestJourneyMapper::test_entry_point_identification PASSED [ 20%]
+tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_progression PASSED [ 30%]
+tests/test_journey_mapping.py::TestJourneyMapper::test_category_flow PASSED [ 40%]
+tests/test_journey_mapping.py::TestJourneyMapper::test_edge_cases PASSED [ 50%]
+tests/test_journey_mapping.py::TestJourneyMapper::test_performance PASSED [ 60%]
+tests/test_journey_mapping.py::TestJourneyMapper::test_journey_stages PASSED [ 70%]
+tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_score_calculation PASSED [ 80%]
+tests/test_journey_mapping.py::test_data_quality SKIPPED (Requires a...) [ 90%]
+tests/test_journey_mapping.py::test_column_validation PASSED             [100%]
+
+========================= 9 passed, 1 skipped in 1.86s =========================
