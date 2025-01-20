@@ -9,7 +9,7 @@ import unittest
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-from ..core.journey_mapping import JourneyMapper
+from analysis.v2_ux_journey.core.journey_mapping import JourneyMapper
 
 class TestJourneyMapper(unittest.TestCase):
     """Test cases for JourneyMapper class."""
