@@ -29,11 +29,33 @@ class JourneyMapper:
         """
         Returns distribution of entry points.
         
+        Methodology:
+        1. Group orders by customer
+        2. Identify first purchase for each customer
+        3. Calculate product frequency distribution
+        4. Filter for significant patterns
+        
         Returns:
             Dict[product_id, frequency_ratio]
         """
-        # Placeholder implementation
-        return {'P1': 1.0}
+        # Get first purchase for each customer
+        first_purchases = (self.orders.sort_values('order_date')
+                          .groupby('customer_id')
+                          .first()
+                          .reset_index())
+        
+        # Calculate product frequency
+        entry_counts = first_purchases['product_id'].value_counts()
+        total_customers = len(first_purchases)
+        
+        # Convert to ratios and filter significant patterns
+        entry_ratios = {
+            product: count/total_customers 
+            for product, count in entry_counts.items()
+            if count/total_customers >= 0.1  # Filter for products used by >10% of customers
+        }
+        
+        return entry_ratios
         
     def map_confidence_progression(self) -> Dict[str, List[float]]:
         """
