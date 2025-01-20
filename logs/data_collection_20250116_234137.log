@@ -1,5 +1,0 @@
-2025-01-16 23:41:37,307 - __main__ - INFO - Starting focused data collection process...
-2025-01-16 23:41:37,309 - shopify_scraper - INFO - Initializing Shopify scraper
-2025-01-16 23:41:37,311 - shopify_scraper - INFO - Loaded configuration from /Users/aaliyah/Desktop/data analyst/config/urls.yaml
-2025-01-16 23:41:37,311 - shopify_scraper - ERROR - Failed to load configuration: unsupported operand type(s) for /: 'float' and 'dict'
-2025-01-16 23:41:37,311 - __main__ - ERROR - Process failed: unsupported operand type(s) for /: 'float' and 'dict'

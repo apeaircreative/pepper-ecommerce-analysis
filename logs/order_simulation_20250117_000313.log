@@ -1,7 +1,0 @@
-2025-01-17 00:03:13,840 - __main__ - INFO - Starting order data simulation...
-2025-01-17 00:03:13,850 - __main__ - INFO - Loaded 361 products
-2025-01-17 00:03:14,322 - __main__ - INFO - Generated 600 orders with 829 items
-2025-01-17 00:03:14,344 - __main__ - INFO - Saved orders to /Users/aaliyah/Desktop/data analyst/data/pepper/simulated_orders_20250117_000314.csv
-2025-01-17 00:03:14,344 - __main__ - INFO - Saved order items to /Users/aaliyah/Desktop/data analyst/data/pepper/simulated_order_items_20250117_000314.csv
-2025-01-17 00:03:14,371 - __main__ - INFO - Saved transformed data to /Users/aaliyah/Desktop/data analyst/data/pepper/transformed_order_items_20250117_000314.csv
-2025-01-17 00:03:14,371 - __main__ - INFO - Order simulation complete

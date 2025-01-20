@@ -1,47 +1,49 @@
-# Personal and sensitive files
-job_description.md
-prompt.md
-requirements.txt
-Notes from Course/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+.pytest_cache/
+.ipynb_checkpoints
 
-# Development files
-test_kaggle_api.py
-
-# Credentials and configs
-.kaggle/
-config/credentials/
-
-# Notebooks checkpoints
-.ipynb_checkpoints/
-*/.ipynb_checkpoints/*
-
-# Raw data files
-data/raw/*.csv
-data/raw/*.xlsx
-data/raw/*.parquet
-data/raw/*.sqlite
-data/raw/*.db
-
-# Processed data
-data/processed/*.csv
-data/processed/*.xlsx
-
-# Keep external data directory structure
-!data/
-!data/external/
-!data/external/pepper/
-!data/external/pepper/koala_inspector/
-!data/external/pepper/koala_inspector/screenshots/
-!data/external/pepper/koala_inspector/csv_exports/
-
-# IDE files
-.vscode/
-.idea/
-
-# OS files
-.DS_Store
-*/.DS_Store
-
-# Local environment
+# Environment
 .env
-*.local
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Project specific
+/Notes from Course/
+/dashboards/
+/notebooks/
+/sql/
+/pipelines/
+/logs/
+/config/
+/data/
+*.db
+*.html
+/analysis/v1_traditional/
+/analysis/figures/
+/analysis/reports/
+/analysis/dashboards/
+/analysis/notebooks/
+
+# Keep only v2_ux_journey
+/analysis/*
+!/analysis/v2_ux_journey/
+
+# Documentation
+Untitled.md
+prompt.md
+job_description.md
+test_output.txt

@@ -1,105 +1,61 @@
-# Pepper E-commerce Analysis: A Journey from Metrics to Understanding
+# Pepper E-commerce Customer Journey Analysis
 
-## Project Evolution
-This project demonstrates the evolution of analytical thinking in e-commerce:
-
-### Version 1: Traditional Analysis
-Initial approach focused on standard e-commerce metrics and broad data collection.
-
-### Version 2: UX-Driven Journey Analysis
-Enhanced approach incorporating user experience insights and post-purchase behavior.
-
-## Why the Pivot?
-The evolution from traditional metrics to journey analysis represents growth in:
-- Strategic thinking
-- Customer understanding
-- Business impact
-- Analytical maturity
+## Overview
+An analysis of customer journeys in the Pepper e-commerce platform, focusing on understanding and improving customer size confidence and shopping experience.
 
 ## Project Structure
 ```
-/analysis
-├── v1_traditional/    # Initial e-commerce analysis
-├── v2_ux_journey/     # Enhanced UX-focused analysis
-└── comparison.md      # Analysis evolution and learnings
+analysis/v2_ux_journey/
+├── analysis/                    # Detailed analysis findings
+│   ├── confidence_progression_analysis.md
+│   ├── category_flow_analysis.md
+│   └── entry_points_analysis.md
+├── core/                       # Core analysis code
+│   └── journey_mapping.py
+├── utils/                      # Utility functions
+│   └── data_loader.py
+└── tests/                      # Test suite
+    └── test_journey_mapping.py
 ```
 
-## Key Insights (Latest)
-- Customer journey mapping reveals clear progression patterns
-- Size confidence develops through specific product sequences
-- Category adoption follows predictable paths
-- Post-purchase behavior predicts customer value
+## Key Features
+- Customer size confidence tracking
+- First purchase experience analysis
+- Style preference mapping
+- Return pattern analysis
+- Customer journey visualization
 
-## Business Impact
-- More targeted inventory planning
-- Journey-based marketing strategies
-- Improved customer retention
-- Enhanced product development
+## Methodology
+Our customer-centric approach focuses on:
+1. Understanding size confidence development
+2. Mapping product exploration patterns
+3. Identifying successful customer journeys
+4. Improving first-time customer experience
 
-## Tools & Methods
-- Python for data analysis
-- Shopify API integration
-- Data visualization (Plotly)
-- Statistical analysis
+## Installation
+```bash
+git clone https://github.com/apeaircreative/pepper-ecommerce-analysis.git
+cd pepper-ecommerce-analysis
+pip install -r requirements.txt
+```
 
-## Future Development
-- Journey-based cohort analysis
-- Confidence progression modeling
-- Category adoption tracking
-- Enhanced visualization
+## Testing
+```bash
+pytest analysis/v2_ux_journey/tests/
+```
 
-## About This Portfolio Project
-This project showcases:
-- Analytical evolution
-- Strategic thinking
-- Business acumen
-- Technical skills
-- Professional growth
+## Documentation
+- [Journey Mapping Analysis](analysis/v2_ux_journey/journey_mapping_analysis.md)
+- [Methodology](analysis/v2_ux_journey/methodology_doc.md)
+- [Size Confidence Analysis](analysis/v2_ux_journey/analysis/confidence_progression_analysis.md)
+- [First Purchase Experience](analysis/v2_ux_journey/analysis/entry_points_analysis.md)
+- [Style Preferences](analysis/v2_ux_journey/analysis/category_flow_analysis.md)
 
-## Key Files
-- `analysis/market_visualization.py`: Main analysis script
-- `analysis/business_story.md`: Detailed findings and recommendations
-- `analysis/CHANGELOG.md`: Evolution of segmentation strategy
-- `analysis/product_mix.html`: Interactive product analysis
-- `analysis/customer_behavior.html`: Customer behavior trends
+## Technologies Used
+- Python 3.11
+- Pandas for data analysis
+- Pytest for testing
+- Git for version control
 
-## Dependencies
-- pandas: Data manipulation
-- numpy: Numerical operations
-- plotly: Interactive visualizations
-- sqlite3: Database operations
-
-## Running the Analysis
-1. Ensure all dependencies are installed
-2. Run `python analysis/market_visualization.py`
-3. View results in generated HTML files and business_story.md
-
-## Key Insights
-- Size is the primary driver of customer behavior
-- Each segment shows distinct seasonal patterns
-- Price sensitivity varies by segment
-- Loyalty programs should be segment-specific
-
-## Next Steps
-1. Develop segment-specific product recommendations
-2. Create targeted marketing strategies
-3. Implement seasonal inventory planning
-4. Enhance size-specific customer experience
-
-## Project Status
-- [x] Initial data analysis
-- [x] Customer segmentation
-- [x] Product mix analysis
-- [x] Behavioral analysis
-- [x] Size-based insights
-- [ ] Product recommendations
-- [ ] Marketing strategies
-- [ ] Implementation plan
-
-## Contributors
-- Data Analysis Team
-- Product Strategy Team
-- Marketing Team
-
-## Last Updated
-January 17, 2025
+## Author
+Aaliyah
