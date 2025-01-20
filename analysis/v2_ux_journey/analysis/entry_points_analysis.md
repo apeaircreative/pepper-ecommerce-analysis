@@ -1,50 +1,50 @@
-# Entry Points Analysis
+# Understanding First-Time Customer Experience
 Date: 2025-01-19
+Analyst: Aaliyah
 
-## Methodology Implementation
+## Overview
+Understanding how new customers begin their journey with Pepper, focusing on their first purchase experience and what leads to customer success.
 
-### Approach
-1. **First Purchase Identification**
-   - Sort orders by date to ensure temporal accuracy
-   - Group by customer to identify entry points
-   - Focus on initial product choices
+## Key Customer Insights
 
-2. **Frequency Analysis**
-   - Calculate product distribution
-   - Convert to ratios for comparability
-   - Filter for significant patterns (>10% threshold)
+### 1. First Purchase Experience
+- We can now better identify what products attract new customers
+- Understanding if their first size choice was successful
+- Learning which styles new customers trust first
 
-### Key Decisions
-1. **Significance Threshold**
-   - Set at 10% of customer base
-   - Rationale: Focus on patterns with statistical significance
-   - Impact: Reduces noise from outlier entry points
+### 2. Product Success Stories
+- Which products help customers find their perfect fit first time
+- Understanding return patterns for first purchases
+- Identifying which styles build instant customer confidence
 
-2. **Temporal Ordering**
-   - Using order_date for sequence
-   - Handles same-day purchases appropriately
-   - Maintains analysis integrity
+### 3. Quality of Customer Experience
+- Accurately tracking each customer's first purchase
+- Understanding the timing of customer decisions
+- Monitoring the success of first purchases
 
-## Initial Findings
+## How We Support New Customers
+1. **Preparing for Success**
+   - Clean, accurate order tracking
+   - Understanding return reasons
+   - Learning from size choices
 
-### Implementation Insights
-1. **Data Quality**
-   - Need to handle timezone considerations
-   - Important to check for duplicate orders
-   - Consider impact of returns on entry point analysis
+2. **Understanding First Choices**
+   - What makes customers choose certain products
+   - How returns inform future recommendations
+   - Impact of size selection on satisfaction
 
-2. **Performance Considerations**
-   - Groupby operations are efficient
-   - Filtering post-calculation maintains data integrity
-   - Memory usage is optimized
+3. **Measuring Customer Success**
+   - Return rates for different products
+   - How size choices affect confidence
+   - Patterns in repeat purchases
 
-### Next Steps
-1. **Validation**
-   - Cross-reference with return rates
-   - Analyze seasonal variations
-   - Consider category-level grouping
+## Next Steps for Customer Experience
+1. Create visual guides for product selection
+2. Understand seasonal preferences
+3. See how size confidence grows
+4. Develop better product recommendations
 
-2. **Enhancement Opportunities**
-   - Add success rate metrics
-   - Include price point analysis
-   - Consider marketing channel correlation
+## Business Impact
+- Better guidance for first-time customers
+- More accurate size recommendations
+- Higher chance of first-purchase success

@@ -1,69 +1,50 @@
-# Category Flow Analysis
+# Understanding Customer Style Preferences
 Date: 2025-01-19
+Analyst: Aaliyah
 
-## Methodology Implementation
+## Overview
+Understanding how customers explore different bra styles and what makes them confident to try new products.
 
-### Approach
-1. **Transition Mapping**
-   - Track sequential category purchases
-   - Map product IDs to categories
-   - Calculate transition probabilities
+## Key Customer Insights
+
+### 1. Style Exploration
+- How customers move between different bra styles
+- Understanding when returns help guide better choices
+- Learning which styles customers try first
+
+### 2. Customer Journey Patterns
+- Common paths through our product range
+- How returns influence future style choices
+- Role of size confidence in style exploration
+
+### 3. Quality of Experience
+- Clear understanding of style preferences
+- Accurate tracking of purchase timing
+- Learning from return experiences
+
+## Supporting Customer Exploration
+1. **Understanding Preferences**
+   - Connecting products with customer choices
+   - Learning from return feedback
+   - Following the customer's journey
 
 2. **Pattern Recognition**
-   - Filter significant transitions (>10%)
-   - Sort by probability
-   - Focus on common paths
+   - Understanding style transitions
+   - Success rates for different paths
+   - Impact of returns on future choices
 
-### Implementation Decisions
-1. **Significance Threshold**
-   - Set at 10% of transitions
-   - Rationale: Focus on meaningful patterns
-   - Impact: Reduces noise in analysis
+3. **Success Identification**
+   - Finding common successful paths
+   - Understanding style confidence
+   - Learning from size patterns
 
-2. **Sequential Analysis**
-   - Consider order timing
-   - Track direct transitions only
-   - Maintain customer context
+## Next Steps for Customer Experience
+1. Create style journey visualizations
+2. Understand return patterns by style
+3. Study impact of size confidence
+4. Develop style recommendation system
 
-## Analysis Components
-
-### Transition Tracking
-1. **Category Mapping**
-   - Product to category conversion
-   - Maintain category hierarchy
-   - Handle multi-category products
-
-2. **Probability Calculation**
-   - Normalize by total transitions
-   - Sort by frequency
-   - Filter insignificant patterns
-
-### Pattern Recognition
-1. **Common Paths**
-   - Identify frequent transitions
-   - Track category exploration
-   - Note category loops
-
-## Initial Findings
-
-### Key Insights
-1. **Category Relationships**
-   - Some categories serve as common entry points
-   - Others are typically secondary purchases
-   - Certain categories show strong connections
-
-2. **Customer Behavior**
-   - Category exploration patterns
-   - Comfort zone development
-   - Category loyalty indicators
-
-### Next Steps
-1. **Enhancement Opportunities**
-   - Add time-based analysis
-   - Consider price point impact
-   - Include confidence correlation
-
-2. **Validation Needs**
-   - Cross-validate with sales data
-   - Analyze seasonal impacts
-   - Test alternative thresholds
+## Business Impact
+- Better understanding of customer preferences
+- More accurate product suggestions
+- Clearer path to customer satisfaction
