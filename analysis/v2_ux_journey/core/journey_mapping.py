@@ -24,6 +24,27 @@ class JourneyMapper:
         self.products = products
         self.journeys = {}
         self.patterns = {}
+        self._prepare_data()
+        
+    def _prepare_data(self):
+        """Prepare data for analysis."""
+        # Extract size from SKU (e.g., 'BRA028FO38AA' -> '38AA')
+        size_pattern = r'(\d{2}[A-Z]{1,2})$'
+        self.products['size'] = self.products['sku'].str.extract(size_pattern)
+        
+        # Extract band and cup sizes
+        self.products['band_size'] = self.products['size'].str.extract(r'(\d{2})')
+        self.products['cup_size'] = self.products['size'].str.extract(r'[0-9]{2}([A-Z]{1,2})')
+        
+        # Create product style from name
+        self.products['style'] = self.products['name'].str.split(' - ').str[0]
+        
+        # Add size info to orders
+        self.orders = self.orders.merge(
+            self.products[['product_id', 'size', 'band_size', 'cup_size']],
+            on='product_id',
+            how='left'
+        )
         
     def identify_entry_points(self) -> Dict[str, float]:
         """
@@ -36,23 +57,32 @@ class JourneyMapper:
         4. Filter for significant patterns
         
         Returns:
-            Dict[product_id, frequency_ratio]
+            Dict[style_name, frequency_ratio]
         """
         # Get first purchase for each customer
-        first_purchases = (self.orders.sort_values('order_date')
+        first_purchases = (self.orders.sort_values('created_at')
                           .groupby('customer_id')
                           .first()
                           .reset_index())
         
-        # Calculate product frequency
-        entry_counts = first_purchases['product_id'].value_counts()
+        # Merge with products to get style names
+        first_purchases = first_purchases.merge(
+            self.products[['product_id', 'name']],
+            on='product_id'
+        )
+        
+        # Extract style from name
+        first_purchases['style'] = first_purchases['name'].str.split(' - ').str[0]
+        
+        # Calculate style frequency
+        style_counts = first_purchases['style'].value_counts()
         total_customers = len(first_purchases)
         
-        # Convert to ratios and filter significant patterns
+        # Convert to percentages and filter significant patterns
         entry_ratios = {
-            product: count/total_customers 
-            for product, count in entry_counts.items()
-            if count/total_customers >= 0.1  # Filter for products used by >10% of customers
+            style: (count/total_customers) * 100
+            for style, count in style_counts.items()
+            if (count/total_customers) >= 0.1  # Filter for styles used by >10% of customers
         }
         
         return entry_ratios
@@ -78,7 +108,11 @@ class JourneyMapper:
             # Get customer's purchase history
             customer_orders = self.orders[
                 self.orders['customer_id'] == customer_id
-            ].sort_values('order_date')
+            ].sort_values('created_at')
+            
+            # Skip customers with only one purchase
+            if len(customer_orders) <= 1:
+                continue
             
             # Calculate running confidence scores
             scores = []
@@ -112,7 +146,13 @@ class JourneyMapper:
         if len(history) <= 1:
             return 0.5  # Neutral score for single purchase
             
+        if 'size' not in history.columns or history['size'].isna().all():
+            return 0.5  # No size information available
+            
         sizes = history['size'].value_counts()
+        if len(sizes) == 0:
+            return 0.5  # No valid sizes found
+            
         return float(sizes.iloc[0]) / len(history)
     
     def _calculate_return_rate(self, history: pd.DataFrame) -> float:
@@ -127,7 +167,7 @@ class JourneyMapper:
             return 0.5  # Neutral score for single purchase
             
         # Calculate average days between purchases
-        dates = history['order_date'].sort_values()
+        dates = history['created_at'].sort_values()
         days_between = (dates.diff().mean().days)
         
         # Convert to score (30 days = 1.0, 365 days = 0.0)
@@ -157,7 +197,7 @@ class JourneyMapper:
         for customer_id in self.orders['customer_id'].unique():
             customer_orders = self.orders[
                 self.orders['customer_id'] == customer_id
-            ].sort_values('order_date')
+            ].sort_values('created_at')
             
             # Map to categories
             categories = [product_categories[pid] 
