@@ -137,8 +137,62 @@ class JourneyMapper:
         """
         Analyzes category transition patterns.
         
+        Methodology:
+        1. Map product IDs to categories
+        2. Create sequence of category transitions
+        3. Calculate transition probabilities
+        4. Filter significant patterns
+        
         Returns:
             Dict[from_category, List[(to_category, probability)]]
         """
-        # Placeholder implementation
-        return {'Tops': [('Bottoms', 0.7)]}
+        # Create product to category mapping
+        product_categories = dict(zip(self.products['product_id'], 
+                                    self.products['category']))
+        
+        # Initialize transition counts
+        transitions = {}
+        
+        # Analyze transitions for each customer
+        for customer_id in self.orders['customer_id'].unique():
+            customer_orders = self.orders[
+                self.orders['customer_id'] == customer_id
+            ].sort_values('order_date')
+            
+            # Map to categories
+            categories = [product_categories[pid] 
+                         for pid in customer_orders['product_id']]
+            
+            # Count transitions
+            for i in range(len(categories)-1):
+                from_cat = categories[i]
+                to_cat = categories[i+1]
+                
+                if from_cat not in transitions:
+                    transitions[from_cat] = {}
+                
+                if to_cat not in transitions[from_cat]:
+                    transitions[from_cat][to_cat] = 0
+                    
+                transitions[from_cat][to_cat] += 1
+        
+        # Calculate probabilities
+        flow_patterns = {}
+        for from_cat, to_cats in transitions.items():
+            total = sum(to_cats.values())
+            
+            # Convert to probability and filter significant patterns
+            significant_transitions = [
+                (to_cat, count/total)
+                for to_cat, count in to_cats.items()
+                if count/total >= 0.1  # Filter transitions occurring >10% of time
+            ]
+            
+            if significant_transitions:
+                flow_patterns[from_cat] = sorted(
+                    significant_transitions,
+                    key=lambda x: x[1],
+                    reverse=True
+                )
+        
+        return flow_patterns
