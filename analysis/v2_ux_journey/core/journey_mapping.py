@@ -61,16 +61,77 @@ class JourneyMapper:
         """
         Maps confidence development over time.
         
+        Methodology:
+        1. Track purchase sequence for each customer
+        2. Calculate confidence scores based on:
+            - Size consistency (40%)
+            - Return rate (30%)
+            - Purchase frequency (30%)
+        3. Map progression over time
+        
         Returns:
             Dict[customer_id, confidence_scores]
         """
-        # Placeholder implementation
-        return {
-            'C1': [0.5, 0.7],
-            'C2': [0.4, 0.6, 0.8],
-            'C3': [0.6],
-            'C4': [0.5]
-        }
+        confidence_scores = {}
+        
+        for customer_id in self.orders['customer_id'].unique():
+            # Get customer's purchase history
+            customer_orders = self.orders[
+                self.orders['customer_id'] == customer_id
+            ].sort_values('order_date')
+            
+            # Calculate running confidence scores
+            scores = []
+            for i in range(len(customer_orders)):
+                history = customer_orders.iloc[:i+1]
+                
+                # Size consistency (40%)
+                size_consistency = self._calculate_size_consistency(history)
+                
+                # Return rate (30%)
+                return_rate = self._calculate_return_rate(history)
+                
+                # Purchase frequency (30%)
+                frequency_score = self._calculate_frequency_score(history)
+                
+                # Weighted confidence score
+                confidence = (
+                    0.4 * size_consistency +
+                    0.3 * (1 - return_rate) +
+                    0.3 * frequency_score
+                )
+                
+                scores.append(min(max(confidence, 0), 1))  # Clamp between 0 and 1
+            
+            confidence_scores[customer_id] = scores
+        
+        return confidence_scores
+    
+    def _calculate_size_consistency(self, history: pd.DataFrame) -> float:
+        """Calculate size consistency score."""
+        if len(history) <= 1:
+            return 0.5  # Neutral score for single purchase
+            
+        sizes = history['size'].value_counts()
+        return float(sizes.iloc[0]) / len(history)
+    
+    def _calculate_return_rate(self, history: pd.DataFrame) -> float:
+        """Calculate return rate."""
+        if len(history) == 0:
+            return 0.0
+        return history['is_return'].mean()
+    
+    def _calculate_frequency_score(self, history: pd.DataFrame) -> float:
+        """Calculate purchase frequency score."""
+        if len(history) <= 1:
+            return 0.5  # Neutral score for single purchase
+            
+        # Calculate average days between purchases
+        dates = history['order_date'].sort_values()
+        days_between = (dates.diff().mean().days)
+        
+        # Convert to score (30 days = 1.0, 365 days = 0.0)
+        return max(0, min(1, (365 - days_between) / (365 - 30)))
         
     def analyze_category_flow(self) -> Dict[str, List[Tuple[str, float]]]:
         """
