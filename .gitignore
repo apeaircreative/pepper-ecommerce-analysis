@@ -1,11 +1,11 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.Python
-*.so
-.pytest_cache/
-.ipynb_checkpoints
+Python
+#__pycache__/
+#*.py[cod]
+#*$py.class
+#.Python
+#*.so
+#.pytest_cache/
+#.ipynb_checkpoints
 
 # Environment
 .env
@@ -29,7 +29,7 @@ ENV/
 /pipelines/
 /logs/
 /config/
-/data/
+#/data/
 *.db
 *.html
 /analysis/v1_traditional/
@@ -45,5 +45,4 @@ ENV/
 # Documentation
 Untitled.md
 prompt.md
-job_description.md
-test_output.txt
+#job_description.md

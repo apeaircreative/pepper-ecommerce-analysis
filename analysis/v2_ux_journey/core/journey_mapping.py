@@ -77,43 +77,37 @@ class JourneyMapper:
             """
             if not isinstance(sku, str):
                 return None, None
-            match = re.search(r'(\d{2})([A-Z]+)$', sku)
-            if match:
-                return match.group(1), match.group(2)
-            return None, None
-            
-        try:
-            # Add size columns to products
-            self.products['band_size'], self.products['cup_size'] = zip(
-                *self.products['sku'].apply(extract_size_info)
-            )
-            self.products['size'] = self.products.apply(
-                lambda x: f"{x['band_size']}{x['cup_size']}" if x['band_size'] and x['cup_size'] else None,
-                axis=1
-            )
-            
-            # Add style column (use product name without color)
-            self.products['style'] = self.products['name'].str.extract(r'(.*?)(?:\s*-\s*[A-Za-z]+)?$')[0]
-            
-            # Merge orders with products
-            self.orders = pd.merge(
-                self.orders,
-                self.products[['product_id', 'name', 'size', 'band_size', 'cup_size', 'category', 'style']],
-                on='product_id',
-                how='left',
-                suffixes=('', '_product')
-            )
-            
-            # Convert dates
-            self.orders['created_at'] = pd.to_datetime(self.orders['created_at'])
-            
-            logger.debug("Data preparation complete")
-            logger.debug(f"Orders columns: {self.orders.columns}")
-            logger.debug(f"Products columns: {self.products.columns}")
-        except Exception as e:
-            logger.error(f"Error during data preparation: {str(e)}")
-            raise
+            # Example extraction logic
+            band_size = sku[5:7] if len(sku) > 7 else None  # Adjust as needed
+            cup_size = sku[7:9] if len(sku) > 9 else None
+            return band_size, cup_size
 
+        # Check if 'sku' column exists
+        if 'sku' in self.products.columns:
+            self.products[['band_size', 'cup_size']] = self.products['sku'].apply(extract_size_info).apply(pd.Series)
+        else:
+            logger.error("SKU column is missing from products DataFrame")
+            raise KeyError("SKU column is missing from products DataFrame")
+        
+        # Add style column (use product name without color)
+        self.products['style'] = self.products['name'].str.extract(r'(.*?)(?:\s*-\s*[A-Za-z]+)?$')[0]
+        
+        # Merge orders with products
+        self.orders = pd.merge(
+            self.orders,
+            self.products[['product_id', 'name', 'size', 'band_size', 'cup_size', 'category', 'style']],
+            on='product_id',
+            how='left',
+            suffixes=('', '_product')
+        )
+        
+        # Convert dates
+        self.orders['created_at'] = pd.to_datetime(self.orders['created_at'])
+        
+        logger.debug("Data preparation complete")
+        logger.debug(f"Orders columns: {self.orders.columns}")
+        logger.debug(f"Products columns: {self.products.columns}")
+    
     def determine_journey_stage(self, customer_id: str) -> Tuple[JourneyStage, float]:
         """
         Determine customer's current journey stage.
@@ -459,3 +453,131 @@ class JourneyMapper:
         predicted_score = sum(scores) / len(scores)
         logger.debug(f"Predicted confidence score: {predicted_score}")
         return min(max(predicted_score, 0.0), 1.0)
+
+    def generate_recommendations(self, customer_id: str) -> List[str]:
+        """Generate personalized recommendations for a customer based on their journey stage.
+        
+        Args:
+            customer_id: Unique customer identifier
+        
+        Returns:
+            A list of recommended products or actions.
+        """
+        logger.debug(f"Generating recommendations for customer {customer_id}")
+        
+        # Get customer's purchase history
+        customer_orders = self.orders[self.orders['customer_id'] == customer_id]
+        
+        if customer_orders.empty:
+            logger.debug("No orders found for customer.")
+            return ["Explore our new arrivals!"]
+        
+        # Determine the customer's journey stage
+        journey_stage, _ = self.determine_journey_stage(customer_id)
+        
+        recommendations = []
+        
+        if journey_stage == JourneyStage.FIRST_PURCHASE:
+            recommendations.append("Welcome! Check out our bestsellers.")
+        elif journey_stage == JourneyStage.SIZE_EXPLORATION:
+            recommendations.append("Try our size guide for better fitting.")
+        elif journey_stage == JourneyStage.STYLE_EXPLORATION:
+            recommendations.append("Explore styles that suit your preferences.")
+        elif journey_stage == JourneyStage.CONFIDENCE_BUILDING:
+            recommendations.append("Join our community to share your experience.")
+        elif journey_stage == JourneyStage.BRAND_LOYAL:
+            recommendations.append("Thank you for being a loyal customer! Enjoy exclusive discounts.")
+        
+        logger.debug(f"Recommendations for customer {customer_id}: {recommendations}")
+        return recommendations
+
+    def analyze_cohort_journeys(self) -> Dict[str, Dict[str, float]]:
+        """Analyze customer journeys based on cohorts.
+        
+        Returns:
+            A dictionary where keys are cohort names and values are dictionaries of
+            journey stage probabilities.
+        """
+        logger.debug("Starting cohort journey analysis")
+        cohort_counts = {}
+        
+        for customer_id in self.orders['customer_id'].unique():
+            customer_orders = self.orders[self.orders['customer_id'] == customer_id]
+            stages = customer_orders['journey_stage'].tolist()
+            cohort_name = self._determine_cohort(customer_orders)
+            
+            if cohort_name not in cohort_counts:
+                cohort_counts[cohort_name] = {}
+            
+            for stage in stages:
+                if stage not in cohort_counts[cohort_name]:
+                    cohort_counts[cohort_name][stage] = 0
+                cohort_counts[cohort_name][stage] += 1
+        
+        # Convert counts to probabilities
+        cohort_probabilities = {}
+        for cohort, stages in cohort_counts.items():
+            total = sum(stages.values())
+            cohort_probabilities[cohort] = {
+                stage: count / total for stage, count in stages.items()
+            }
+        
+        logger.debug(f"Cohort probabilities: {cohort_probabilities}")
+        return cohort_probabilities
+
+    def analyze_cross_sell_patterns(self) -> Dict[str, Dict[str, float]]:
+        """Analyze cross-sell patterns between product categories.
+        
+        Returns:
+            A dictionary where keys are product categories and values are dictionaries of
+            cross-sell probabilities.
+        """
+        logger.debug("Starting cross-sell analysis")
+        cross_sell_counts = {}
+        
+        for customer_id in self.orders['customer_id'].unique():
+            customer_orders = self.orders[self.orders['customer_id'] == customer_id]
+            categories = customer_orders['category'].tolist()
+            
+            for i in range(len(categories) - 1):
+                from_category = categories[i]
+                to_category = categories[i + 1]
+                
+                if from_category not in cross_sell_counts:
+                    cross_sell_counts[from_category] = {}
+                
+                if to_category not in cross_sell_counts[from_category]:
+                    cross_sell_counts[from_category][to_category] = 0
+                
+                cross_sell_counts[from_category][to_category] += 1
+        
+        # Convert counts to probabilities
+        cross_sell_probabilities = {}
+        for from_category, to_categories in cross_sell_counts.items():
+            total = sum(to_categories.values())
+            cross_sell_probabilities[from_category] = {
+                to_category: count / total for to_category, count in to_categories.items()
+            }
+        
+        logger.debug(f"Cross-sell probabilities: {cross_sell_probabilities}")
+        return cross_sell_probabilities
+
+    def _determine_cohort(self, customer_orders: pd.DataFrame) -> str:
+        """Determine the cohort for a customer based on their order history.
+        
+        Args:
+            customer_orders: DataFrame of customer's orders
+        
+        Returns:
+            A string representing the cohort name.
+        """
+        # Example logic for determining cohort based on order count
+        order_count = len(customer_orders)
+        if order_count == 0:
+            return 'no_orders'
+        elif order_count == 1:
+            return 'first_time'
+        elif order_count < 5:
+            return 'occasional'
+        else:
+            return 'loyal'

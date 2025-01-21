@@ -1,0 +1,65 @@
+status: failed
+total_records: 361
+validation_results:
+  duplicates:
+    product_id: !!python/object/apply:numpy.core.multiarray.scalar
+    - &id001 !!python/object/apply:numpy.dtype
+      args:
+      - i8
+      - false
+      - true
+      state: !!python/tuple
+      - 3
+      - <
+      - null
+      - null
+      - null
+      - -1
+      - -1
+      - 0
+    - !!binary |
+      SwEAAAAAAAA=
+    sku: !!python/object/apply:numpy.core.multiarray.scalar
+    - *id001
+    - !!binary |
+      BgAAAAAAAAA=
+    variant_id: !!python/object/apply:numpy.core.multiarray.scalar
+    - *id001
+    - !!binary |
+      AAAAAAAAAAA=
+  range_violations:
+    height:
+      expected_range: !!python/tuple
+      - 5
+      - 50
+      invalid_count: 361
+      max_found: 0.0
+      min_found: 0.0
+    length:
+      expected_range: !!python/tuple
+      - 5
+      - 50
+      invalid_count: 361
+      max_found: 0.0
+      min_found: 0.0
+    price:
+      expected_range: !!python/tuple
+      - 20
+      - 100
+      invalid_count: 10
+      max_found: 200.0
+      min_found: 8.0
+    weight:
+      expected_range: !!python/tuple
+      - 50
+      - 500
+      invalid_count: 361
+      max_found: 0.0
+      min_found: 0.0
+    width:
+      expected_range: !!python/tuple
+      - 5
+      - 50
+      invalid_count: 361
+      max_found: 0.0
+      min_found: 0.0

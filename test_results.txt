@@ -1,0 +1,1647 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.11.8, pytest-7.4.4, pluggy-1.5.0 -- /opt/anaconda3/envs/pepper-analysis/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/aaliyah/Desktop/data analyst
+plugins: anyio-4.8.0
+collecting ... collected 20 items
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_data_preparation ERROR [  5%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_entry_point_identification ERROR [ 10%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_progression ERROR [ 15%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_category_flow ERROR [ 20%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_edge_cases ERROR [ 25%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_performance ERROR [ 30%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_journey_stages ERROR [ 35%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_score_calculation ERROR [ 40%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_invalid_orders_dataframe PASSED [ 45%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_invalid_products_dataframe PASSED [ 50%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_invalid_customer_id ERROR [ 55%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_invalid_customer_orders_dataframe ERROR [ 60%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_progression_invalid_input ERROR [ 65%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_analyze_journey_patterns ERROR [ 70%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_predict_confidence ERROR [ 75%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_generate_recommendations ERROR [ 80%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_analyze_cohort_journeys ERROR [ 85%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_analyze_cross_sell_patterns ERROR [ 90%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::test_data_quality SKIPPED [ 95%]
+analysis/v2_ux_journey/tests/test_journey_mapping.py::test_column_validation PASSED [100%]
+
+==================================== ERRORS ====================================
+__________ ERROR at setup of TestJourneyMapper.test_data_preparation ___________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149438ed0>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_____ ERROR at setup of TestJourneyMapper.test_entry_point_identification ______
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149439650>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_______ ERROR at setup of TestJourneyMapper.test_confidence_progression ________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149439dd0>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+____________ ERROR at setup of TestJourneyMapper.test_category_flow ____________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x14943a590>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_____________ ERROR at setup of TestJourneyMapper.test_edge_cases ______________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x14943ad10>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_____________ ERROR at setup of TestJourneyMapper.test_performance _____________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x14943b490>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+___________ ERROR at setup of TestJourneyMapper.test_journey_stages ____________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x14943bc10>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+____ ERROR at setup of TestJourneyMapper.test_confidence_score_calculation _____
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x1494403d0>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_________ ERROR at setup of TestJourneyMapper.test_invalid_customer_id _________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149441990>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+__ ERROR at setup of TestJourneyMapper.test_invalid_customer_orders_dataframe __
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149442110>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_ ERROR at setup of TestJourneyMapper.test_confidence_progression_invalid_input _
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149442890>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+______ ERROR at setup of TestJourneyMapper.test_analyze_journey_patterns _______
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149443010>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_________ ERROR at setup of TestJourneyMapper.test_predict_confidence __________
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x14943bf10>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+______ ERROR at setup of TestJourneyMapper.test_generate_recommendations _______
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149438510>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_______ ERROR at setup of TestJourneyMapper.test_analyze_cohort_journeys _______
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149442bd0>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+_____ ERROR at setup of TestJourneyMapper.test_analyze_cross_sell_patterns _____
+
+self = <v2_ux_journey.tests.test_journey_mapping.TestJourneyMapper object at 0x149441d90>
+
+    @pytest.fixture
+    def sample_data(self):
+        """Create sample Pepper order and product data."""
+        orders_data = {
+            'id': [f'order_{i}' for i in range(1, 17)],
+            'customer_id': [
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
+            'status': [
+                'pending',  # No order status
+                'complete',
+                'returned', 'complete',
+                'complete', 'returned', 'complete',
+                'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
+            ],
+            'created_at': [
+                '2024-12-01',  # No orders customer timestamp
+                '2024-12-01',
+                '2024-12-01', '2024-12-15',
+                '2024-12-01', '2024-12-05', '2024-12-10',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
+            ],
+            'product_id': [
+                None,  # No orders customer
+                1,  # First Purchase
+                1, 1,  # Size Exploration (same style)
+                1, 2, 3,  # Style Exploration (different styles)
+                4, 4, 4, 4,  # Confidence Building (consistent)
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
+        }
+        # Create the orders DataFrame
+>       orders_df = pd.DataFrame(orders_data)
+
+analysis/v2_ux_journey/tests/test_journey_mapping.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/frame.py:778: in __init__
+    mgr = dict_to_mgr(data, index, columns, dtype=dtype, copy=copy, typ=manager)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:503: in dict_to_mgr
+    return arrays_to_mgr(arrays, columns, index, dtype=dtype, typ=typ, consolidate=copy)
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:114: in arrays_to_mgr
+    index = _extract_index(arrays)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+data = [['order_1', 'order_2', 'order_3', 'order_4', 'order_5', 'order_6', ...], ['cust_no_orders', 'cust_new', 'cust_size', ... ['2024-12-01', '2024-12-01', '2024-12-01', '2024-12-15', '2024-12-01', '2024-12-05', ...], [None, 1, 1, 1, 1, 2, ...]]
+
+    def _extract_index(data) -> Index:
+        """
+        Try to infer an Index from the passed data, raise ValueError on failure.
+        """
+        index: Index
+        if len(data) == 0:
+            return default_index(0)
+    
+        raw_lengths = []
+        indexes: list[list[Hashable] | Index] = []
+    
+        have_raw_arrays = False
+        have_series = False
+        have_dicts = False
+    
+        for val in data:
+            if isinstance(val, ABCSeries):
+                have_series = True
+                indexes.append(val.index)
+            elif isinstance(val, dict):
+                have_dicts = True
+                indexes.append(list(val.keys()))
+            elif is_list_like(val) and getattr(val, "ndim", 1) == 1:
+                have_raw_arrays = True
+                raw_lengths.append(len(val))
+            elif isinstance(val, np.ndarray) and val.ndim > 1:
+                raise ValueError("Per-column arrays must each be 1-dimensional")
+    
+        if not indexes and not raw_lengths:
+            raise ValueError("If using all scalar values, you must pass an index")
+    
+        if have_series:
+            index = union_indexes(indexes)
+        elif have_dicts:
+            index = union_indexes(indexes, sort=False)
+    
+        if have_raw_arrays:
+            lengths = list(set(raw_lengths))
+            if len(lengths) > 1:
+>               raise ValueError("All arrays must be of the same length")
+E               ValueError: All arrays must be of the same length
+
+/opt/anaconda3/envs/pepper-analysis/lib/python3.11/site-packages/pandas/core/internals/construction.py:677: ValueError
+=========================== short test summary info ============================
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_data_preparation
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_entry_point_identification
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_progression
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_category_flow
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_edge_cases
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_performance
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_journey_stages
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_score_calculation
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_invalid_customer_id
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_invalid_customer_orders_dataframe
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_confidence_progression_invalid_input
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_analyze_journey_patterns
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_predict_confidence
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_generate_recommendations
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_analyze_cohort_journeys
+ERROR analysis/v2_ux_journey/tests/test_journey_mapping.py::TestJourneyMapper::test_analyze_cross_sell_patterns
+=================== 3 passed, 1 skipped, 16 errors in 4.10s ====================

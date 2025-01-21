@@ -21,75 +21,50 @@ class TestJourneyMapper:
     def sample_data(self):
         """Create sample Pepper order and product data."""
         orders_data = {
-            'id': [f'order_{i}' for i in range(1, 16)],
+            'id': [f'order_{i}' for i in range(1, 17)],
             'customer_id': [
-                # First Purchase (1 order)
-                'cust_new',
-                # Size Exploration (2 orders, same style)
-                'cust_size', 'cust_size',
-                # Style Exploration (3 orders, different styles, some returns)
-                'cust_style', 'cust_style', 'cust_style',
-                # Confidence Building (4 orders, consistent size)
-                'cust_conf', 'cust_conf', 'cust_conf', 'cust_conf',
-                # Brand Loyal (5+ orders, high confidence)
-                'cust_loyal', 'cust_loyal', 'cust_loyal', 'cust_loyal', 'cust_loyal'
-            ],
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_size',
+                'cust_style', 'cust_style', 'cust_conf', 'cust_loyal',
+                'cust_no_orders', 'cust_new', 'cust_size', 'cust_style',
+                'cust_conf', 'cust_loyal', 'cust_style', 'cust_style'
+            ],  # Adjusted to have 16 elements
             'status': [
-                # First Purchase
+                'pending',  # No order status
                 'complete',
-                # Size Exploration (1 return)
                 'returned', 'complete',
-                # Style Exploration (1 return)
                 'complete', 'returned', 'complete',
-                # Confidence Building (no returns)
                 'complete', 'complete', 'complete', 'complete',
-                # Brand Loyal (no returns)
-                'complete', 'complete', 'complete', 'complete', 'complete'
+                'complete', 'complete', 'complete', 'complete', 'complete',
+                'complete', 'complete'  # Adjusted to have 16 elements
             ],
             'created_at': [
-                # Timestamps ensuring proper order
+                '2024-12-01',  # No orders customer timestamp
                 '2024-12-01',
                 '2024-12-01', '2024-12-15',
                 '2024-12-01', '2024-12-05', '2024-12-10',
                 '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-30',
-                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30'
+                '2024-12-01', '2024-12-10', '2024-12-20', '2024-12-25', '2024-12-30',
+                '2024-12-30'  # Adjusted to have 16 elements
             ],
             'product_id': [
+                None,  # No orders customer
                 1,  # First Purchase
                 1, 1,  # Size Exploration (same style)
                 1, 2, 3,  # Style Exploration (different styles)
                 4, 4, 4, 4,  # Confidence Building (consistent)
-                5, 5, 5, 5, 5  # Brand Loyal (very consistent)
-            ]
+                5, 5, 5, 5, 5  # Brand Loyal (consistent)
+            ],  # Adjusted to have 16 elements
         }
-        
-        products_data = {
-            'product_id': list(range(1, 6)),
-            'name': [
-                'Classic All You Bra - Black',
-                'Signature Lace Bra - Sand',  # Changed to match test expectation
-                'Mesh All You Bra - Flora',
-                'Ultimate T-Shirt Bra - Black',
-                'Strapless Bra - Buff'
-            ],
-            'sku': [
-                'BRA001BL34AA',
-                'BRA002SD34AA',  # Same size as first
-                'BRA003FL36B',   # Different size
-                'BRA004BL34AA',  # Back to original size
-                'BRA005BU34AA'   # Consistent size
-            ],
-            'retail_price': [55.0, 65.0, 45.0, 65.0, 60.0],
-            'category': ['Classic', 'Signature', 'Mesh', 'T-Shirt', 'Strapless']
-        }
-        
-        # Convert to DataFrames
+        # Create the orders DataFrame
         orders_df = pd.DataFrame(orders_data)
-        products_df = pd.DataFrame(products_data)
-        
-        # Add returned column based on status
-        orders_df['returned'] = orders_df['status'].str.lower() == 'returned'
-        
+        products_df = pd.DataFrame({
+            'id': [1, 2, 3, 4, 5],
+            'name': ['T-Shirt', 'Bra', 'Shorts', 'Loungewear', 'Pajamas'],
+            'sku': [
+                'BRA001', 'BRA002', 'SHO001', 'LON001', 'PAJ001'
+            ],
+            'category': ['Clothing', 'Underwear', 'Clothing', 'Loungewear', 'Loungewear']
+        })
         return orders_df, products_df
     
     def test_data_preparation(self, sample_data):
@@ -103,8 +78,7 @@ class TestJourneyMapper:
         assert 'cup_size' in mapper.products.columns
         
         # Verify specific size extraction
-        first_product = mapper.products.iloc[0]
-        assert first_product['size'] == '34AA'
+        assert first_product['size'] == '34AA'  # Adjust this based on the actual expected value from the SKU
         assert first_product['band_size'] == '34'
         assert first_product['cup_size'] == 'AA'
         
@@ -347,6 +321,78 @@ class TestJourneyMapper:
         
         # Check that the predicted score is a float
         assert isinstance(predicted_score, float)
+
+    def test_generate_recommendations(self, sample_data):
+        """Test the generate_recommendations method for correct recommendations based on journey stage."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        
+        # Manually set journey stages for testing
+        mapper.orders['journey_stage'] = [
+            'FIRST_PURCHASE', 'SIZE_EXPLORATION', 'STYLE_EXPLORATION',
+            'CONFIDENCE_BUILDING', 'BRAND_LOYAL'
+        ] * 3  # Repeat for multiple customers
+        
+        # Test recommendations for each journey stage
+        recommendations_first_purchase = mapper.generate_recommendations('cust_new')
+        assert "Welcome! Check out our bestsellers." in recommendations_first_purchase
+        
+        recommendations_size_exploration = mapper.generate_recommendations('cust_size')
+        assert "Try our size guide for better fitting." in recommendations_size_exploration
+        
+        recommendations_style_exploration = mapper.generate_recommendations('cust_style')
+        assert "Explore styles that suit your preferences." in recommendations_style_exploration
+        
+        recommendations_confidence_building = mapper.generate_recommendations('cust_conf')
+        assert "Join our community to share your experience." in recommendations_confidence_building
+        
+        recommendations_brand_loyal = mapper.generate_recommendations('cust_loyal')
+        assert "Thank you for being a loyal customer! Enjoy exclusive discounts." in recommendations_brand_loyal
+
+    def test_analyze_cohort_journeys(self, sample_data):
+        """Test the analyze_cohort_journeys method for correct cohort analysis."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        
+        # Manually set journey stages and cohorts for testing
+        mapper.orders['journey_stage'] = [
+            'FIRST_PURCHASE', 'SIZE_EXPLORATION', 'STYLE_EXPLORATION',
+            'CONFIDENCE_BUILDING', 'BRAND_LOYAL'
+        ] * 3  # Repeat for multiple customers
+        mapper.orders['customer_id'] = [
+            'cust_no_orders', 'cust_new', 'cust_size', 'cust_style', 'cust_conf', 'cust_loyal'
+        ] * 3
+        
+        # Analyze cohort journeys
+        cohort_results = mapper.analyze_cohort_journeys()
+        
+        # Check that cohort results contain expected stages
+        assert 'no_orders' in cohort_results
+        assert 'first_time' in cohort_results
+        assert 'occasional' in cohort_results
+        assert 'loyal' in cohort_results
+
+    def test_analyze_cross_sell_patterns(self, sample_data):
+        """Test the analyze_cross_sell_patterns method for correct cross-sell analysis."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        
+        # Manually set categories for testing
+        mapper.orders['category'] = [
+            'Bras', 'Underwear', 'Loungewear',
+            'Bras', 'Loungewear'
+        ] * 3  # Repeat for multiple customers
+        mapper.orders['customer_id'] = [
+            'cust_new', 'cust_size', 'cust_style', 'cust_conf', 'cust_loyal'
+        ] * 3
+        
+        # Analyze cross-sell patterns
+        cross_sell_results = mapper.analyze_cross_sell_patterns()
+        
+        # Check that cross-sell results contain expected categories
+        assert 'Bras' in cross_sell_results
+        assert 'Underwear' in cross_sell_results
+        assert 'Loungewear' in cross_sell_results
 
 @pytest.mark.skip(reason="Requires actual Pepper data files")
 def test_data_quality():
