@@ -264,6 +264,38 @@ class TestJourneyMapper:
             _, score = mapper.determine_journey_stage(customer_id)
             assert 0.0 <= score <= 1.0
 
+    def test_invalid_orders_dataframe(self):
+        """Test that ValueError is raised when orders is not a DataFrame."""
+        with pytest.raises(ValueError, match="Orders and products must be DataFrames"):
+            JourneyMapper(orders=[], products=pd.DataFrame())
+
+    def test_invalid_products_dataframe(self):
+        """Test that ValueError is raised when products is not a DataFrame."""
+        with pytest.raises(ValueError, match="Orders and products must be DataFrames"):
+            JourneyMapper(orders=pd.DataFrame(), products=[])  
+
+    def test_invalid_customer_id(self, sample_data):
+        """Test that ValueError is raised when customer_id is not a string."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        with pytest.raises(ValueError, match="Customer ID must be a string"):
+            mapper.determine_journey_stage(123)
+
+    def test_invalid_customer_orders_dataframe(self, sample_data):
+        """Test that ValueError is raised when customer_orders is not a DataFrame."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        with pytest.raises(ValueError, match="Customer orders must be a DataFrame"):
+            mapper._calculate_confidence_score(customer_orders=123)
+
+    def test_confidence_progression_invalid_input(self, sample_data):
+        """Test that Exception is raised during confidence progression mapping if an error occurs."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        mapper.orders = None  # Simulate an error
+        with pytest.raises(Exception):
+            mapper.map_confidence_progression()
+
 @pytest.mark.skip(reason="Requires actual Pepper data files")
 def test_data_quality():
     """Test with actual Pepper data files."""

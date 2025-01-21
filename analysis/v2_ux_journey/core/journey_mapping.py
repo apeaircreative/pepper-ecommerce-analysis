@@ -39,7 +39,13 @@ class JourneyMapper:
         Args:
             orders: DataFrame with order history
             products: DataFrame with product details
+        
+        Raises:
+            ValueError: If orders or products are not DataFrames
         """
+        if not isinstance(orders, pd.DataFrame) or not isinstance(products, pd.DataFrame):
+            raise ValueError("Orders and products must be DataFrames")
+        
         self.orders = orders.copy()
         self.products = products.copy()
         self.journeys = {}
@@ -47,12 +53,28 @@ class JourneyMapper:
         self._prepare_data()
         
     def _prepare_data(self):
-        """Prepare data for analysis."""
+        """
+        Prepare data for analysis.
+        
+        This method extracts size information from SKUs, adds size columns to products,
+        merges orders with products, and converts dates.
+        
+        Raises:
+            Exception: If an error occurs during data preparation
+        """
         logger.debug("Starting data preparation")
         
         # Extract size information from SKU
         def extract_size_info(sku):
-            """Extract size components from SKU (e.g., BRA001BL34AA -> 34, AA)"""
+            """
+            Extract size components from SKU (e.g., BRA001BL34AA -> 34, AA)
+            
+            Args:
+                sku: SKU string
+            
+            Returns:
+                Tuple of (band_size, cup_size) or (None, None) if not a string
+            """
             if not isinstance(sku, str):
                 return None, None
             match = re.search(r'(\d{2})([A-Z]+)$', sku)
@@ -60,33 +82,37 @@ class JourneyMapper:
                 return match.group(1), match.group(2)
             return None, None
             
-        # Add size columns to products
-        self.products['band_size'], self.products['cup_size'] = zip(
-            *self.products['sku'].apply(extract_size_info)
-        )
-        self.products['size'] = self.products.apply(
-            lambda x: f"{x['band_size']}{x['cup_size']}" if x['band_size'] and x['cup_size'] else None,
-            axis=1
-        )
-        
-        # Add style column (use product name without color)
-        self.products['style'] = self.products['name'].str.extract(r'(.*?)(?:\s*-\s*[A-Za-z]+)?$')[0]
-        
-        # Merge orders with products
-        self.orders = pd.merge(
-            self.orders,
-            self.products[['product_id', 'name', 'size', 'band_size', 'cup_size', 'category', 'style']],
-            on='product_id',
-            how='left',
-            suffixes=('', '_product')
-        )
-        
-        # Convert dates
-        self.orders['created_at'] = pd.to_datetime(self.orders['created_at'])
-        
-        logger.debug("Data preparation complete")
-        logger.debug(f"Orders columns: {self.orders.columns}")
-        logger.debug(f"Products columns: {self.products.columns}")
+        try:
+            # Add size columns to products
+            self.products['band_size'], self.products['cup_size'] = zip(
+                *self.products['sku'].apply(extract_size_info)
+            )
+            self.products['size'] = self.products.apply(
+                lambda x: f"{x['band_size']}{x['cup_size']}" if x['band_size'] and x['cup_size'] else None,
+                axis=1
+            )
+            
+            # Add style column (use product name without color)
+            self.products['style'] = self.products['name'].str.extract(r'(.*?)(?:\s*-\s*[A-Za-z]+)?$')[0]
+            
+            # Merge orders with products
+            self.orders = pd.merge(
+                self.orders,
+                self.products[['product_id', 'name', 'size', 'band_size', 'cup_size', 'category', 'style']],
+                on='product_id',
+                how='left',
+                suffixes=('', '_product')
+            )
+            
+            # Convert dates
+            self.orders['created_at'] = pd.to_datetime(self.orders['created_at'])
+            
+            logger.debug("Data preparation complete")
+            logger.debug(f"Orders columns: {self.orders.columns}")
+            logger.debug(f"Products columns: {self.products.columns}")
+        except Exception as e:
+            logger.error(f"Error during data preparation: {str(e)}")
+            raise
 
     def determine_journey_stage(self, customer_id: str) -> Tuple[JourneyStage, float]:
         """
@@ -94,10 +120,16 @@ class JourneyMapper:
         
         Args:
             customer_id: Unique customer identifier
-            
+        
         Returns:
             Tuple of (JourneyStage, confidence_score)
+        
+        Raises:
+            ValueError: If customer_id is not a string
         """
+        if not isinstance(customer_id, str):
+            raise ValueError("Customer ID must be a string")
+        
         logger.debug(f"Determining journey stage for customer {customer_id}")
         
         # Get customer's purchase history
@@ -159,10 +191,16 @@ class JourneyMapper:
         
         Args:
             customer_orders: DataFrame of customer's orders
-            
+        
         Returns:
             Confidence score between 0 and 1
+        
+        Raises:
+            ValueError: If customer_orders is not a DataFrame
         """
+        if not isinstance(customer_orders, pd.DataFrame):
+            raise ValueError("Customer orders must be a DataFrame")
+        
         if len(customer_orders) == 0:
             return 0.0
             
@@ -213,25 +251,32 @@ class JourneyMapper:
         
         Returns:
             Dict[customer_id, confidence_scores]
+        
+        Raises:
+            Exception: If an error occurs during confidence progression mapping
         """
         logger.debug("Starting confidence progression mapping")
         confidence_scores = {}
         
-        for customer_id in self.orders['customer_id'].unique():
-            # Get customer's purchase history
-            customer_orders = self.orders[
-                self.orders['customer_id'] == customer_id
-            ].sort_values('created_at')
-            
-            # Calculate running confidence scores
-            scores = []
-            for i in range(len(customer_orders)):
-                history = customer_orders.iloc[:i+1]
-                score = self._calculate_confidence_score(history)
-                scores.append(score)
-            
-            confidence_scores[customer_id] = scores
-            logger.debug(f"Customer {customer_id} scores: {scores}")
+        try:
+            for customer_id in self.orders['customer_id'].unique():
+                # Get customer's purchase history
+                customer_orders = self.orders[
+                    self.orders['customer_id'] == customer_id
+                ].sort_values('created_at')
+                
+                # Calculate running confidence scores
+                scores = []
+                for i in range(len(customer_orders)):
+                    history = customer_orders.iloc[:i+1]
+                    score = self._calculate_confidence_score(history)
+                    scores.append(score)
+                
+                confidence_scores[customer_id] = scores
+                logger.debug(f"Customer {customer_id} scores: {scores}")
+        except Exception as e:
+            logger.error(f"Error during confidence progression mapping: {str(e)}")
+            raise
         
         return confidence_scores
 
@@ -247,33 +292,41 @@ class JourneyMapper:
         
         Returns:
             Dict[style_name, frequency_ratio]
+        
+        Raises:
+            Exception: If an error occurs during entry point identification
         """
         logger.debug("Starting entry point identification")
         
-        # Get first purchase for each customer (exclude returns)
-        first_purchases = (
-            self.orders[~self.orders['returned']]
-            .sort_values('created_at')
-            .groupby('customer_id')
-            .first()
-            .reset_index()
-        )
+        try:
+            # Get first purchase for each customer (exclude returns)
+            first_purchases = (
+                self.orders[~self.orders['returned']]
+                .sort_values('created_at')
+                .groupby('customer_id')
+                .first()
+                .reset_index()
+            )
+            
+            logger.debug(f"Found {len(first_purchases)} first purchases")
+            logger.debug(f"First purchases columns: {first_purchases.columns}")
+            logger.debug(f"First purchases data:\n{first_purchases[['customer_id', 'name', 'product_id']]}")
+            
+            # Calculate frequency distribution of product names
+            name_counts = first_purchases['name'].value_counts()
+            total_customers = len(first_purchases)
+            
+            # Convert to frequency ratios
+            entry_points = {
+                name: count / total_customers
+                for name, count in name_counts.items()
+            }
+            
+            logger.debug(f"Entry points identified: {entry_points}")
+        except Exception as e:
+            logger.error(f"Error during entry point identification: {str(e)}")
+            raise
         
-        logger.debug(f"Found {len(first_purchases)} first purchases")
-        logger.debug(f"First purchases columns: {first_purchases.columns}")
-        logger.debug(f"First purchases data:\n{first_purchases[['customer_id', 'name', 'product_id']]}")
-        
-        # Calculate frequency distribution of product names
-        name_counts = first_purchases['name'].value_counts()
-        total_customers = len(first_purchases)
-        
-        # Convert to frequency ratios
-        entry_points = {
-            name: count / total_customers
-            for name, count in name_counts.items()
-        }
-        
-        logger.debug(f"Entry points identified: {entry_points}")
         return entry_points
 
     def analyze_category_flow(self) -> Dict[str, List[Tuple[str, float]]]:
@@ -288,54 +341,61 @@ class JourneyMapper:
         
         Returns:
             Dict[from_category, List[(to_category, probability)]]
+        
+        Raises:
+            Exception: If an error occurs during category flow analysis
         """
-        # Create product to category mapping
-        product_categories = dict(zip(self.products['product_id'], 
-                                    self.products['category']))
-        
-        # Initialize transition counts
-        transitions = {}
-        
-        # Analyze transitions for each customer
-        for customer_id in self.orders['customer_id'].unique():
-            customer_orders = self.orders[
-                self.orders['customer_id'] == customer_id
-            ].sort_values('created_at')
+        try:
+            # Create product to category mapping
+            product_categories = dict(zip(self.products['product_id'], 
+                                        self.products['category']))
             
-            # Map to categories
-            categories = [product_categories[pid] 
-                         for pid in customer_orders['product_id']]
+            # Initialize transition counts
+            transitions = {}
             
-            # Count transitions
-            for i in range(len(categories)-1):
-                from_cat = categories[i]
-                to_cat = categories[i+1]
+            # Analyze transitions for each customer
+            for customer_id in self.orders['customer_id'].unique():
+                customer_orders = self.orders[
+                    self.orders['customer_id'] == customer_id
+                ].sort_values('created_at')
                 
-                if from_cat not in transitions:
-                    transitions[from_cat] = {}
+                # Map to categories
+                categories = [product_categories[pid] 
+                             for pid in customer_orders['product_id']]
                 
-                if to_cat not in transitions[from_cat]:
-                    transitions[from_cat][to_cat] = 0
+                # Count transitions
+                for i in range(len(categories)-1):
+                    from_cat = categories[i]
+                    to_cat = categories[i+1]
                     
-                transitions[from_cat][to_cat] += 1
-        
-        # Calculate probabilities
-        flow_patterns = {}
-        for from_cat, to_cats in transitions.items():
-            total = sum(to_cats.values())
+                    if from_cat not in transitions:
+                        transitions[from_cat] = {}
+                    
+                    if to_cat not in transitions[from_cat]:
+                        transitions[from_cat][to_cat] = 0
+                        
+                    transitions[from_cat][to_cat] += 1
             
-            # Convert to probability and filter significant patterns
-            significant_transitions = [
-                (to_cat, count/total)
-                for to_cat, count in to_cats.items()
-                if count/total >= 0.1  # Filter transitions occurring >10% of time
-            ]
-            
-            if significant_transitions:
-                flow_patterns[from_cat] = sorted(
-                    significant_transitions,
-                    key=lambda x: x[1],
-                    reverse=True
-                )
+            # Calculate probabilities
+            flow_patterns = {}
+            for from_cat, to_cats in transitions.items():
+                total = sum(to_cats.values())
+                
+                # Convert to probability and filter significant patterns
+                significant_transitions = [
+                    (to_cat, count/total)
+                    for to_cat, count in to_cats.items()
+                    if count/total >= 0.1  # Filter transitions occurring >10% of time
+                ]
+                
+                if significant_transitions:
+                    flow_patterns[from_cat] = sorted(
+                        significant_transitions,
+                        key=lambda x: x[1],
+                        reverse=True
+                    )
+        except Exception as e:
+            logger.error(f"Error during category flow analysis: {str(e)}")
+            raise
         
         return flow_patterns
