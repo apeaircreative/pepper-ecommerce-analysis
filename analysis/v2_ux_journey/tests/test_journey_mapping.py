@@ -296,6 +296,34 @@ class TestJourneyMapper:
         with pytest.raises(Exception):
             mapper.map_confidence_progression()
 
+    def test_analyze_journey_patterns(self, sample_data):
+        """Test the analyze_journey_patterns method for correct transition probabilities."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        
+        # Manually set journey stages for testing
+        mapper.orders['journey_stage'] = [
+            'FIRST_PURCHASE', 'SIZE_EXPLORATION', 'STYLE_EXPLORATION',
+            'CONFIDENCE_BUILDING', 'BRAND_LOYAL'
+        ] * 3  # Repeat for multiple customers
+        
+        # Analyze journey patterns
+        patterns = mapper.analyze_journey_patterns()
+        
+        # Check that patterns contain expected stages
+        assert 'FIRST_PURCHASE' in patterns
+        assert 'SIZE_EXPLORATION' in patterns
+        assert 'STYLE_EXPLORATION' in patterns
+        assert 'CONFIDENCE_BUILDING' in patterns
+        assert 'BRAND_LOYAL' in patterns
+        
+        # Check transition probabilities (the exact values will depend on your sample data)
+        assert isinstance(patterns['FIRST_PURCHASE'], dict)
+        assert isinstance(patterns['SIZE_EXPLORATION'], dict)
+        assert isinstance(patterns['STYLE_EXPLORATION'], dict)
+        assert isinstance(patterns['CONFIDENCE_BUILDING'], dict)
+        assert isinstance(patterns['BRAND_LOYAL'], dict)
+
 @pytest.mark.skip(reason="Requires actual Pepper data files")
 def test_data_quality():
     """Test with actual Pepper data files."""

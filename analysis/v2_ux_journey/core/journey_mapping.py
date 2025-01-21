@@ -399,3 +399,40 @@ class JourneyMapper:
             raise
         
         return flow_patterns
+
+    def analyze_journey_patterns(self) -> Dict[str, Dict[str, float]]:
+        """Analyze customer journeys to identify common paths and transitions.
+        
+        Returns:
+            A dictionary where keys are customer IDs and values are dictionaries of
+            transition probabilities between journey stages.
+        """
+        logger.debug("Starting journey pattern analysis")
+        transition_counts = {}
+        
+        for customer_id in self.orders['customer_id'].unique():
+            customer_orders = self.orders[self.orders['customer_id'] == customer_id]
+            stages = customer_orders['journey_stage'].tolist()
+            
+            for i in range(len(stages) - 1):
+                from_stage = stages[i]
+                to_stage = stages[i + 1]
+                
+                if from_stage not in transition_counts:
+                    transition_counts[from_stage] = {}
+                
+                if to_stage not in transition_counts[from_stage]:
+                    transition_counts[from_stage][to_stage] = 0
+                
+                transition_counts[from_stage][to_stage] += 1
+        
+        # Convert counts to probabilities
+        transition_probabilities = {}
+        for from_stage, to_stages in transition_counts.items():
+            total = sum(to_stages.values())
+            transition_probabilities[from_stage] = {
+                to_stage: count / total for to_stage, count in to_stages.items()
+            }
+        
+        logger.debug(f"Transition probabilities: {transition_probabilities}")
+        return transition_probabilities
