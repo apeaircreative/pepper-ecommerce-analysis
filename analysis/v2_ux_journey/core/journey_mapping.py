@@ -436,3 +436,26 @@ class JourneyMapper:
         
         logger.debug(f"Transition probabilities: {transition_probabilities}")
         return transition_probabilities
+
+    def predict_confidence(self, customer_orders: pd.DataFrame) -> float:
+        """Predict future confidence score based on historical purchase data.
+        
+        Args:
+            customer_orders: DataFrame of customer's orders
+        
+        Returns:
+            Predicted confidence score between 0 and 1
+        """
+        logger.debug("Predicting confidence based on historical data")
+        if len(customer_orders) == 0:
+            return 0.0
+        
+        # Calculate average confidence score from past orders
+        scores = []
+        for index, order in customer_orders.iterrows():
+            score = self._calculate_confidence_score(customer_orders.iloc[:index + 1])
+            scores.append(score)
+        
+        predicted_score = sum(scores) / len(scores)
+        logger.debug(f"Predicted confidence score: {predicted_score}")
+        return min(max(predicted_score, 0.0), 1.0)

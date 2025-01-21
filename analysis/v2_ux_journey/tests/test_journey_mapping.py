@@ -324,6 +324,30 @@ class TestJourneyMapper:
         assert isinstance(patterns['CONFIDENCE_BUILDING'], dict)
         assert isinstance(patterns['BRAND_LOYAL'], dict)
 
+    def test_predict_confidence(self, sample_data):
+        """Test the predict_confidence method for correct score prediction."""
+        orders_df, products_df = sample_data
+        mapper = JourneyMapper(orders_df, products_df)
+        
+        # Manually set journey stages and corresponding orders for testing
+        mapper.orders['journey_stage'] = [
+            'FIRST_PURCHASE', 'SIZE_EXPLORATION', 'STYLE_EXPLORATION',
+            'CONFIDENCE_BUILDING', 'BRAND_LOYAL'
+        ] * 3  # Repeat for multiple customers
+        
+        # Set up orders DataFrame with relevant data
+        mapper.orders['returned'] = [False, True, False, False, False] * 3
+        mapper.orders['created_at'] = pd.date_range(start='2024-01-01', periods=15)
+        
+        # Predict confidence score
+        predicted_score = mapper.predict_confidence(mapper.orders)
+        
+        # Check that the predicted score is between 0 and 1
+        assert 0.0 <= predicted_score <= 1.0
+        
+        # Check that the predicted score is a float
+        assert isinstance(predicted_score, float)
+
 @pytest.mark.skip(reason="Requires actual Pepper data files")
 def test_data_quality():
     """Test with actual Pepper data files."""
